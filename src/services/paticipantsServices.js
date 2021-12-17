@@ -60,6 +60,41 @@ const upDateParticipantById = async (req, res) => {
     }
 }
 
+const affichageNomVh = async (req, res) => {
+    try{
+        const findParticipants = await Participant.find();
+        const findCourses = await courses.find();
+        findParticipants.forEach(function(etudiant){
+            console.log(etudiant);
+            idcours=etudiant.cours;
+            //console.log(idcours);
+            var vHoraire=0;
+            var i=0;
+            idcours.forEach(function(id){
+                var myId=JSON.stringify(id);
+                findCourses.forEach(function(cours){
+                    var testId=JSON.stringify(cours._id);
+                    if(testId===myId){
+                        i=++i;
+                        console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+                        console.log('voici le cours numéro :', i);
+                        console.log('--------------------------');
+                        console.log('Titre cours:',cours.Titre);
+                        console.log('Volume_horaire :',cours.Volume_horaire);
+                        vhTemp=cours.Volume_horaire;
+                        vHoraire=vHoraire+vhTemp;
+                    };
+                });
+            });
+            console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+            console.log('Volume horaire Total :', vHoraire);     
+        });
+    }
+    catch(e){
+        console.log(e.message)
+    }
+}
+
 module.exports = {
 
     chercheParticipant,
